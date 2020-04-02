@@ -49,7 +49,7 @@ namespace Homework_4
         {
             Console.WriteLine("Решить задачу о нахождении длины максимальной последовательности с помощью матрицы.\n");
 
-            Console.Write("Введите строки (регистр не имеет значения):");
+            Console.WriteLine("Введите строки (регистр не имеет значения):");
             Console.Write("Первая строка: ");
             string line_1 = Console.ReadLine().Trim().ToUpper();
 
