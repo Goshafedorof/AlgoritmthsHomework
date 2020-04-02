@@ -10,15 +10,14 @@ namespace Homework_4
     {
         static void Main(string[] args)
         {
-            bool continued = true;                  // флаг "продолжать выполнение программы"
-
-            while (continued)
+            while (true)
             {
                 #region Menu
                 Console.WriteLine("Выполнил: Федоров Игорь.");
                 Console.WriteLine("Меню:");
                 Console.WriteLine("# - Краткое описание программы");
                 Console.WriteLine("1 - Количество маршрутов с препятствиями;");
+                Console.WriteLine("2 - Нахождение длины максимальной последовательности;");
 
                 Console.Write("\nВведите номер программы (для выхода - любой другой символ): ");
                 #endregion
@@ -32,8 +31,10 @@ namespace Homework_4
                     case "1":
                         ObstacleRoutes();
                         break;
+                    case "2":
+                        MaxSubsequence();
+                        break;
                     default:
-                        continued = false;
                         return;
                 }
 
@@ -42,6 +43,73 @@ namespace Homework_4
 
                 Console.Clear();
             }
+        }
+
+        private static void MaxSubsequence()
+        {
+            //Console.WriteLine("Решить задачу о нахождении длины максимальной последовательности с помощью матрицы.\n");
+
+            //Console.Write("Введите строки (регистр не имеет значения):");
+            //Console.Write("Первая строка: ");
+            //string line_1 = Console.ReadLine().Trim().ToUpper();
+
+            //Console.Write("Вторая строка: ");
+            //string line_2 = Console.ReadLine().Trim().ToUpper();
+
+            string line_2 = "geekbrains";
+            string line_1 = "geekminds";
+
+            int rowCount = line_1.Length + 1;
+            int columnCount = line_2.Length + 1;
+
+            int[][] map = new int[rowCount][];
+
+            for (int row = 0; row < rowCount; row++)             
+                map[row] = new int[columnCount];
+
+            int value = 0;
+
+            for (int column = 1; column < columnCount; column++)
+            {
+                map[1][column] = map[1][column - 1];
+
+                for (int row = 1; row < rowCount; row++)
+                {
+                    if (line_1[row - 1] == line_2[column - 1])
+                    {
+                        value++;
+                        map[row][column] = value;
+                    }
+                    else
+                    {
+                        map[row][column] = map[row - 1][column];
+                    }
+                    
+                }
+            }
+
+
+
+            //for (int row = 0; row < rowCount; row++)
+            //{
+            //    bool finded = false;
+
+            //    for (int column = 0; column < columnCount; column++)
+            //    {
+            //        if (!finded && line_1[row] == line_2[column])
+            //        {
+            //            value += 1;
+            //            map[row][column] = value;
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            map[row][column]
+            //        }
+            //    }
+            //}
+
+            PrintArray(map);
         }
 
         private static void ObstacleRoutes()
