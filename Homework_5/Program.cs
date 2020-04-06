@@ -17,6 +17,7 @@ namespace Homework_5
                 Console.WriteLine("Меню:");
                 Console.WriteLine("# - Краткое описание программы");
                 Console.WriteLine("1 - Перевод из десятичной в двоичную систему счисления;");
+                Console.WriteLine("2 - Определение правильности ввода скобочной последоваетльности;");
 
                 Console.Write("\nВведите номер программы (для выхода - любой другой символ): ");
                 #endregion
@@ -29,6 +30,9 @@ namespace Homework_5
                 {
                     case "1":
                         DecToBin();
+                        break;
+                    case "2":
+                        BracketSequence();
                         break;
                     default:
                         return;
@@ -101,6 +105,23 @@ namespace Homework_5
 
                 return value;
             }
+
+            public bool ExistValue(T value)
+            {
+                if (Size == 0)
+                    throw new Exception("Stack is empty");
+
+                bool existed = false;
+
+                Node<T> currentNode = Head;
+
+                while (!IsEmpty)
+                {
+                    
+                }
+
+                return existed;
+            }
         }
 
         private static void DecToBin()
@@ -134,6 +155,39 @@ namespace Homework_5
             Console.WriteLine();
             Console.WriteLine("Перевод: {0}(10) = {1}(2)", valuePrev, line);
             Console.WriteLine();
+        }
+
+        private static readonly char[] VALITED_CHARS = { '(', ')', '[', ']', '{', '}' };
+
+        private static void BracketSequence()
+        {
+            Console.WriteLine("Программа, которая определяет, является ли введенная скобочная последовательность правильной.\n");
+
+            Console.Write("Введите скобочную последовательность (без пробелов): ");
+
+            string chars = "";
+
+            Stack<char> stack = new Stack<char>() { MaxSize = 100 };
+
+            for (int indexChar = 0; indexChar < chars.Length; indexChar++)
+            {
+                if (!CharValited(chars[indexChar]))
+                {
+                    Console.WriteLine("Введен неверный символ \'{0}\'", chars[indexChar]);
+                    return;
+                }
+            }
+        }
+
+        private static bool CharValited(char symbol)
+        {
+            for (int i = 0; i < VALITED_CHARS.Length; i++)
+            {
+                if (VALITED_CHARS[i] == symbol)                
+                    return true;
+            }
+
+            return false;
         }
     }
 }
