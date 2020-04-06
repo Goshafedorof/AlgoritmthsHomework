@@ -47,69 +47,83 @@ namespace Homework_4
 
         private static void MaxSubsequence()
         {
-            //Console.WriteLine("Решить задачу о нахождении длины максимальной последовательности с помощью матрицы.\n");
+            Console.WriteLine("Решить задачу о нахождении длины максимальной последовательности с помощью матрицы.\n");
 
-            //Console.Write("Введите строки (регистр не имеет значения):");
-            //Console.Write("Первая строка: ");
-            //string line_1 = Console.ReadLine().Trim().ToUpper();
+            Console.WriteLine("Введите строки (регистр не имеет значения):");
+            Console.Write("Первая строка: ");
+            string line_1 = Console.ReadLine().Trim().ToUpper();
 
-            //Console.Write("Вторая строка: ");
-            //string line_2 = Console.ReadLine().Trim().ToUpper();
+            Console.Write("Вторая строка: ");
+            string line_2 = Console.ReadLine().Trim().ToUpper();
 
-            string line_2 = "geekbrains";
-            string line_1 = "geekminds";
+            //string line_2 = "geekbrains";
+            //string line_1 = "geekminds";
 
             int rowCount = line_1.Length + 1;
             int columnCount = line_2.Length + 1;
 
             int[][] map = new int[rowCount][];
 
-            for (int row = 0; row < rowCount; row++)             
+            for (int row = 0; row < rowCount; row++)
                 map[row] = new int[columnCount];
 
-            int value = 0;
+            int startColumn = 1;
 
-            for (int column = 1; column < columnCount; column++)
+            for (int row = 1; row < rowCount; row++)
             {
-                map[1][column] = map[1][column - 1];
-
-                for (int row = 1; row < rowCount; row++)
+                for (int column = 1; column < columnCount; column++)
                 {
-                    if (line_1[row - 1] == line_2[column - 1])
-                    {
-                        value++;
-                        map[row][column] = value;
-                    }
+                    if (column < startColumn)
+                        map[row][column] = map[row - 1][column];
                     else
                     {
-                        map[row][column] = map[row - 1][column];
+                        if ((line_1[row - 1] == line_2[column - 1]) &&
+                            (map[row - 1][column] == map[row][column - 1]))
+                        {
+                            map[row][column] = map[row - 1][column] + 1;
+                            startColumn = column + 1;
+                        }
+                        else
+                        {
+                            map[row][column] = map[row][column - 1];
+                        }
                     }
-                    
                 }
             }
 
+            Console.WriteLine();
+            PrintArray(map, line_2, line_1);
+            Console.WriteLine();
+            Console.WriteLine("Длина максимальной подпоследовательности = {0}", map[rowCount - 1][columnCount - 1]);
+            Console.WriteLine();
+        }
 
+        private static void PrintArray(int[][] array, string columnWord, string rowWord)
+        {
+            for (int row = 0; row < array.Length; row++)
+            {
+                string line = string.Empty;
 
-            //for (int row = 0; row < rowCount; row++)
-            //{
-            //    bool finded = false;
+                if (row == 0)
+                {
+                    line += string.Format("/ *** ");
 
-            //    for (int column = 0; column < columnCount; column++)
-            //    {
-            //        if (!finded && line_1[row] == line_2[column])
-            //        {
-            //            value += 1;
-            //            map[row][column] = value;
-            //            break;
-            //        }
-            //        else
-            //        {
-            //            map[row][column]
-            //        }
-            //    }
-            //}
+                    for (int i = 0; i < columnWord.Length; i++)
+                        line += string.Format(" {0}  ", columnWord[i]);
 
-            PrintArray(map);
+                    line += "\n* ";
+                }
+
+                for (int column = 0; column < array[row].Length; column++)
+                {
+                    if (row != 0 && column == 0)
+                        line += string.Format("{0} ", rowWord[row - 1]);
+
+                    line += array[row][column].ToString("D3") + " ";
+                }
+
+                Console.WriteLine(line);
+            }
         }
 
         private static void ObstacleRoutes()
